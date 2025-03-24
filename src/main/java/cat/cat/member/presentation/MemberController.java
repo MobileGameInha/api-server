@@ -1,7 +1,9 @@
 package cat.cat.member.presentation;
 
 import cat.cat.member.application.MemberService;
+import cat.cat.member.dto.request.LoginRequest;
 import cat.cat.member.dto.request.SignUpRequest;
+import cat.cat.member.dto.response.LoginResponse;
 import cat.cat.member.dto.response.MemberInfoResponse;
 import cat.cat.member.dto.response.SignUpResponse;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +28,12 @@ public class MemberController {
     }
 
     @GetMapping("/info/{memberId}")
-    private ResponseEntity<MemberInfoResponse> findMemberInfo(@PathVariable("memberId") final Long memberId) {
+    public ResponseEntity<MemberInfoResponse> findMemberInfo(@PathVariable("memberId") final Long memberId) {
         return ResponseEntity.ok(memberService.findMemberInfo(memberId));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody final LoginRequest loginRequest) {
+        return ResponseEntity.ok(memberService.login(loginRequest));
     }
 }

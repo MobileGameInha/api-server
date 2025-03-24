@@ -2,7 +2,9 @@ package cat.cat.member.application;
 
 import cat.cat.member.domain.Member;
 import cat.cat.member.domain.MemberRepository;
+import cat.cat.member.dto.request.LoginRequest;
 import cat.cat.member.dto.request.SignUpRequest;
+import cat.cat.member.dto.response.LoginResponse;
 import cat.cat.member.dto.response.MemberInfoResponse;
 import cat.cat.member.dto.response.SignUpResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +26,13 @@ public class MemberService {
     public MemberInfoResponse findMemberInfo(final long memberId) {
         final Member member = memberRepository.findById(memberId).orElseThrow();
         return new MemberInfoResponse(member.getId(), member.getNickname(), member.getPassword());
+    }
+
+    @Transactional
+    public LoginResponse login(final LoginRequest loginRequest) {
+        final Member member = memberRepository.findByNicknameAndPassword(loginRequest.getUsername(),
+                loginRequest.getPassword()).orElseThrow();
+
+        return new LoginResponse(member.getId());
     }
 }
