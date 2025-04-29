@@ -7,6 +7,7 @@ import cat.cat.member.dto.request.SignUpRequest;
 import cat.cat.member.dto.response.LoginResponse;
 import cat.cat.member.dto.response.MemberInfoResponse;
 import cat.cat.member.dto.response.SignUpResponse;
+import cat.cat.member.exception.MemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,14 @@ public class MemberService {
     @Transactional
     public SignUpResponse signUp(final SignUpRequest signUpRequest) {
         final Member member = memberRepository.save(new Member(signUpRequest.getName(), signUpRequest.getPassword()));
+        checkDuplicateNickname(signUpRequest.getName());
         return new SignUpResponse(member.getId());
+    }
+
+    private void checkDuplicateNickname(final String nickname) {
+        if(memberRepository.existsByNickname(nickname)) {
+            throw new MemberException("이미 존재하는 회원입니다.");
+        }
     }
 
     public MemberInfoResponse findMemberInfo(final long memberId) {
@@ -31,7 +39,7 @@ public class MemberService {
     @Transactional
     public LoginResponse login(final LoginRequest loginRequest) {
         final Member member = memberRepository.findByNicknameAndPassword(loginRequest.getUsername(),
-                loginRequest.getPassword()).orElseThrow();
+                loginRequest.getPassword()).orElseThrow(() -> new MemberException("회원 정보가 존재하지 않습니다."));
 
         return new LoginResponse(member.getId());
     }
