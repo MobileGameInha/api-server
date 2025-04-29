@@ -17,10 +17,14 @@ public class Member {
     @Id
     private Long id;
 
+    private String email;
+    private String username;
     private String nickname;
     private String password;
 
-    public Member(final String nickname, final String password) {
+    public Member(final String email, final String username, final String nickname, final String password) {
+        this.email = email;
+        this.username = username;
         this.nickname = nickname;
         this.password = password;
     }

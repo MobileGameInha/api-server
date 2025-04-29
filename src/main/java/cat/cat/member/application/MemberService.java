@@ -20,8 +20,8 @@ public class MemberService {
 
     @Transactional
     public SignUpResponse signUp(final SignUpRequest signUpRequest) {
-        final Member member = memberRepository.save(new Member(signUpRequest.getName(), signUpRequest.getPassword()));
-        checkDuplicateNickname(signUpRequest.getName());
+        final Member member = memberRepository.save(new Member(signUpRequest.getEmail(), signUpRequest.getUsername(), signUpRequest.getNickname(), signUpRequest.getPassword()));
+        checkDuplicateNickname(signUpRequest.getUsername());
         return new SignUpResponse(member.getId());
     }
 

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class LoginRequest {
 
     @Schema(description = "회원 닉네임", example = "devhaon")
-    private String username;
+    private String nickname;
 
     @Schema(description = "회원 비밀번호", example = "12345678")
     private String password;
