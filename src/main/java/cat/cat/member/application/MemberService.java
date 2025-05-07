@@ -40,7 +40,7 @@ public class MemberService {
 
     @Transactional
     public LoginResponse login(final LoginRequest loginRequest) {
-        final Member member = memberRepository.findByNicknameAndPassword(loginRequest.getUsername(),
+        final Member member = memberRepository.findByUsernameAndPassword(loginRequest.getUsername(),
                 loginRequest.getPassword()).orElseThrow(() -> new MemberException("회원 정보가 존재하지 않습니다."));
 
         return new LoginResponse(member.getId());
