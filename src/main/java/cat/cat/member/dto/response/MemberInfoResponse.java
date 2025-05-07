@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 public class MemberInfoResponse {
 
@@ -14,5 +13,14 @@ public class MemberInfoResponse {
     private Long id;
 
     @Schema(description = "생성된 회원 닉네임", example = "devhaon")
-    private String name;
+    private String nickname;
+
+    @Schema(description = "생성된 회원 유저 아이디", example = "devhaon123123")
+    private String username;
+
+    public MemberInfoResponse(final Long id, final String nickname, final String username) {
+        this.id = id;
+        this.nickname = nickname;
+        this.username = username;
+    }
 }

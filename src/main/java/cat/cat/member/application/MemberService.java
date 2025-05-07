@@ -20,8 +20,8 @@ public class MemberService {
 
     @Transactional
     public SignUpResponse signUp(final SignUpRequest signUpRequest) {
+        checkDuplicateNickname(signUpRequest.getNickname());
         final Member member = memberRepository.save(new Member(signUpRequest.getEmail(), signUpRequest.getUsername(), signUpRequest.getNickname(), signUpRequest.getPassword()));
-        checkDuplicateNickname(signUpRequest.getUsername());
         return new SignUpResponse(member.getId());
     }
 
@@ -35,7 +35,7 @@ public class MemberService {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("회원 정보가 존재하지 않습니다."));
 
-        return new MemberInfoResponse(member.getId(), member.getNickname());
+        return new MemberInfoResponse(member.getId(), member.getNickname(), member.getUsername());
     }
 
     @Transactional
