@@ -20,13 +20,13 @@ public class MemberService {
 
     @Transactional
     public SignUpResponse signUp(final SignUpRequest signUpRequest) {
-        checkDuplicateNickname(signUpRequest.getNickname());
+        checkDuplicateUsername(signUpRequest.getUsername());
         final Member member = memberRepository.save(new Member(signUpRequest.getEmail(), signUpRequest.getUsername(), signUpRequest.getNickname(), signUpRequest.getPassword()));
         return new SignUpResponse(member.getId());
     }
 
-    private void checkDuplicateNickname(final String nickname) {
-        if(memberRepository.existsByNickname(nickname)) {
+    private void checkDuplicateUsername(final String username) {
+        if(memberRepository.existsByUsername(username)) {
             throw new MemberException("이미 존재하는 회원입니다.");
         }
     }
