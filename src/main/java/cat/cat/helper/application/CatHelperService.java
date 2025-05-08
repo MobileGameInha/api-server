@@ -45,4 +45,25 @@ public class CatHelperService {
     public List<CatHelper> findAllMemberCatHelpers(final long memberId) {
         return catHelperRepository.findByMemberId(memberId);
     }
+
+    @Transactional
+    public void chooseCatHelpers(final long memberId, final List<Long> helperIds) {
+        // 1. 해당 memberId의 모든 CatHelper를 비활성화
+        // 2. helperId가 일치하는 것들만 다시 활성화
+        final List<CatHelper> helpers = catHelperRepository.findByMemberId(memberId);
+        changeAllHelperInActive(memberId, helpers);
+        changeRequestHelperActive(helpers);
+    }
+
+    private void changeAllHelperInActive(final long memberId, final List<CatHelper> helpers) {
+        for (final CatHelper helper : helpers) {
+            helper.setActive(false);
+        }
+    }
+
+    private void changeRequestHelperActive(final List<CatHelper> helpers) {
+        for (final CatHelper helper : helpers) {
+            helper.setActive(true);
+        }
+    }
 }

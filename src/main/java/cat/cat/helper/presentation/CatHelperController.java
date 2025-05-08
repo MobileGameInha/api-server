@@ -3,6 +3,7 @@ package cat.cat.helper.presentation;
 import cat.cat.helper.application.CatHelperService;
 import cat.cat.helper.domain.CatHelper;
 import cat.cat.helper.dto.BuyCatHelperRequest;
+import cat.cat.helper.dto.ChooseCatHelperRequest;
 import cat.cat.helper.dto.FindAllMemberCatHelperResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -32,5 +33,11 @@ public class CatHelperController {
     public ResponseEntity<FindAllMemberCatHelperResponse> findAllMemberCatHelpers(@PathVariable final long memberId) {
         final List<CatHelper> catHelpers = catHelperService.findAllMemberCatHelpers(memberId);
         return ResponseEntity.ok(new FindAllMemberCatHelperResponse(catHelpers));
+    }
+
+    @PostMapping("/choose/{memberId}")
+    public ResponseEntity<Void> chooseCatHelpers(@PathVariable final long memberId, @RequestBody final ChooseCatHelperRequest chooseCatHelperRequest) {
+        catHelperService.chooseCatHelpers(memberId, chooseCatHelperRequest.getHelperIds());
+        return ResponseEntity.noContent().build();
     }
 }

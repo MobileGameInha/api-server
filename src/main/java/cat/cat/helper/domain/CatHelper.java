@@ -29,4 +29,8 @@ public class CatHelper {
         this.level = 0L;
         this.active = false;
     }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
