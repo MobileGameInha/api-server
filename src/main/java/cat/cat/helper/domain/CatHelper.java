@@ -20,10 +20,12 @@ public class CatHelper {
     private Long memberId;
     private Long helperId;
     public Long exp;
+    public boolean active;
 
     public CatHelper(final long memberId, final long helperId) {
         this.memberId = memberId;
         this.helperId = helperId;
+        this.active = false;
         exp = 0L;
     }
 }

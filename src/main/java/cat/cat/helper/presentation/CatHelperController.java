@@ -2,6 +2,7 @@ package cat.cat.helper.presentation;
 
 import cat.cat.helper.application.CatHelperService;
 import cat.cat.helper.domain.CatHelper;
+import cat.cat.helper.dto.BuyCatHelperRequest;
 import cat.cat.helper.dto.FindAllMemberCatHelperResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +23,8 @@ public class CatHelperController {
     private final CatHelperService catHelperService;
 
     @PostMapping("/buy/{memberId}/{helperId}")
-    public ResponseEntity<Void> buyCatHelper(@PathVariable("memberId") final long memberId, @PathVariable("helperId") final long helperId) {
-        catHelperService.buyCatHelper(memberId, helperId);
+    public ResponseEntity<Void> buyCatHelper(@PathVariable("memberId") final long memberId, @PathVariable("helperId") final long helperId, @RequestBody final BuyCatHelperRequest buyCatHelperRequest) {
+        catHelperService.buyCatHelper(memberId, helperId, buyCatHelperRequest.getHelperPrice());
         return ResponseEntity.noContent().build();
     }
 

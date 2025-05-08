@@ -21,12 +21,16 @@ public class Member {
     private String username;
     private String nickname;
     private String password;
+    private Long gold;
+    private Long totalExp;
 
     public Member(final String email, final String username, final String nickname, final String password) {
         this.email = email;
         this.username = username;
         this.nickname = nickname;
         this.password = password;
+        this.gold = 0L;
+        this.totalExp = 0L;
     }
 
 }
