@@ -33,4 +33,8 @@ public class CatHelper {
     public void setActive(boolean active) {
         this.active = active;
     }
+
+    public void setLevel(Long level) {
+        this.level = level;
+    }
 }

@@ -81,4 +81,9 @@ public class CatHelperService {
     public CatHelper findHelperDetail(final long memberId, final long helperId) {
         return catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
     }
+
+    public void updateHelperLevel(final long memberId, final long helperId) {
+        final CatHelper catHelper = catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
+        catHelper.setLevel(catHelper.getLevel() + 1);
+    }
 }

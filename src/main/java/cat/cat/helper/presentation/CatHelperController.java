@@ -55,4 +55,10 @@ public class CatHelperController {
         final CatHelper catHelper = catHelperService.findHelperDetail(memberId, helperId);
         return ResponseEntity.ok(new FindCatHelperResponse(catHelper));
     }
+
+    @PostMapping("/detail/{memberId}/{helperId}")
+    public ResponseEntity<Void> updateHelperLevel(@PathVariable("memberId") final long memberId, @PathVariable("helperId") final long helperId) {
+        catHelperService.updateHelperLevel(memberId, helperId);
+        return ResponseEntity.noContent().build();
+    }
 }
