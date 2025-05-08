@@ -73,4 +73,8 @@ public class CatHelperService {
             helper.setActive(true);
         }
     }
+
+    public List<CatHelper> findChooseCatHelpers(final long memberId) {
+        return catHelperRepository.findAllByMemberIdAndActiveTrue(memberId);
+    }
 }
