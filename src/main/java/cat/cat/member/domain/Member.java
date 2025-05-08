@@ -32,5 +32,4 @@ public class Member {
         this.gold = 0L;
         this.totalExp = 0L;
     }
-
 }

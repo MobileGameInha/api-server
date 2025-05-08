@@ -35,7 +35,12 @@ public class MemberService {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("회원 정보가 존재하지 않습니다."));
 
-        return new MemberInfoResponse(member.getId(), member.getNickname(), member.getUsername());
+        return new MemberInfoResponse(
+                member.getId(),
+                member.getNickname(),
+                member.getUsername(),
+                member.getTotalExp(),
+                member.getGold());
     }
 
     @Transactional
