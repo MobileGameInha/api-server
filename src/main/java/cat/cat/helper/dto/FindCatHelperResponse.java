@@ -1,5 +1,6 @@
 package cat.cat.helper.dto;
 
+import cat.cat.helper.domain.CatHelper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,4 +11,11 @@ public class FindCatHelperResponse {
     private Long exp;
     private Long level;
     private boolean active;
+
+    public FindCatHelperResponse(final CatHelper catHelper) {
+        this.helperId = catHelper.getHelperId();
+        this.exp = catHelper.getExp();
+        this.level = catHelper.getLevel();
+        this.active = catHelper.isActive();
+    }
 }

@@ -77,4 +77,8 @@ public class CatHelperService {
     public List<CatHelper> findChooseCatHelpers(final long memberId) {
         return catHelperRepository.findAllByMemberIdAndActiveTrue(memberId);
     }
+
+    public CatHelper findHelperDetail(final long memberId, final long helperId) {
+        return catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
+    }
 }

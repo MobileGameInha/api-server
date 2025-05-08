@@ -5,6 +5,7 @@ import cat.cat.helper.domain.CatHelper;
 import cat.cat.helper.dto.BuyCatHelperRequest;
 import cat.cat.helper.dto.ChooseCatHelperRequest;
 import cat.cat.helper.dto.FindAllMemberCatHelperResponse;
+import cat.cat.helper.dto.FindCatHelperResponse;
 import cat.cat.helper.dto.FindChooseCatHelperAllResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -47,5 +48,11 @@ public class CatHelperController {
     public ResponseEntity<FindChooseCatHelperAllResponse> findChooseCatHelpers(@PathVariable final long memberId) {
         final List<CatHelper> catHelpers = catHelperService.findChooseCatHelpers(memberId);
         return ResponseEntity.ok(new FindChooseCatHelperAllResponse(catHelpers));
+    }
+
+    @GetMapping("/detail/{memberId}/{helperId}")
+    public ResponseEntity<FindCatHelperResponse> findCatHelperDetail(@PathVariable("memberId") final long memberId, @PathVariable("helperId") final long helperId) {
+        final CatHelper catHelper = catHelperService.findHelperDetail(memberId, helperId);
+        return ResponseEntity.ok(new FindCatHelperResponse(catHelper));
     }
 }
