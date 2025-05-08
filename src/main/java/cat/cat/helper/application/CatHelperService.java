@@ -48,11 +48,18 @@ public class CatHelperService {
 
     @Transactional
     public void chooseCatHelpers(final long memberId, final List<Long> helperIds) {
-        // 1. 해당 memberId의 모든 CatHelper를 비활성화
+        // 1. 해당 memberId의 모든 CatHelper 를 비활성화
         // 2. helperId가 일치하는 것들만 다시 활성화
         final List<CatHelper> helpers = catHelperRepository.findByMemberId(memberId);
+        checkMaxChooseSize(helpers.size());
         changeAllHelperInActive(memberId, helpers);
         changeRequestHelperActive(helpers);
+    }
+
+    private void checkMaxChooseSize(final long size) {
+        if(size > 3) {
+            throw new CatHelperException("조력자는 최대 3마리만 선택 가능합니다.");
+        }
     }
 
     private void changeAllHelperInActive(final long memberId, final List<CatHelper> helpers) {
