@@ -9,9 +9,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class FindAllMemberCatHelperResponse {
-    private List<CatHelper> catHelpers;
+    private List<FindCatHelperResponse> catHelpers;
 
     public FindAllMemberCatHelperResponse(final List<CatHelper> catHelpers) {
-        this.catHelpers = catHelpers;
+        this.catHelpers = catHelpers.stream().map(
+                ch -> new FindCatHelperResponse(
+                        ch.getHelperId(),
+                        ch.getExp(),
+                        ch.getLevel(),
+                        ch.isActive())).toList();
     }
 }
