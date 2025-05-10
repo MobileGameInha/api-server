@@ -24,7 +24,7 @@ public class Member {
     private String nickname;
     private String password;
     private Long gold;
-    private Long totalExp;
+    private Double totalExp;
 
     public Member(final String email, final String username, final String nickname, final String password) {
         this.email = email;
@@ -32,6 +32,6 @@ public class Member {
         this.nickname = nickname;
         this.password = password;
         this.gold = 0L;
-        this.totalExp = 0L;
+        this.totalExp = 0.0;
     }
 }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateExpInfoAfterStageRequest {
-    private Long memberExp;
+    private Double exp;
     private Long memberGold;
-    private Map<Long, Long> exps;
+    private List<Long> helperIds;
 }

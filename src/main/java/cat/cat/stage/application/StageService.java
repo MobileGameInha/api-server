@@ -6,6 +6,7 @@ import cat.cat.member.domain.Member;
 import cat.cat.member.domain.MemberRepository;
 import cat.cat.member.exception.MemberException;
 import cat.cat.stage.dto.UpdateExpInfoAfterStageRequest;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class StageService {
 
     public void updateExpInfoAfterStage(final long memberId, final UpdateExpInfoAfterStageRequest expInfoAfterStageRequest) {
         updateMemberExpInfo(memberId, expInfoAfterStageRequest);
-        updateHelperExpInfo(memberId, expInfoAfterStageRequest.getExps());
+        updateHelperExpInfo(memberId, expInfoAfterStageRequest.getHelperIds(), expInfoAfterStageRequest.getExp());
     }
 
     private void updateMemberExpInfo(final long memberId, final UpdateExpInfoAfterStageRequest expInfoAfterStageRequest) {
@@ -28,13 +29,13 @@ public class StageService {
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
 
         member.setGold(member.getGold() + expInfoAfterStageRequest.getMemberGold());
-        member.setTotalExp(member.getTotalExp() + expInfoAfterStageRequest.getMemberExp());
+        member.setTotalExp(member.getTotalExp() + expInfoAfterStageRequest.getExp());
     }
 
-    private void updateHelperExpInfo(final long memberId, final Map<Long, Long> exps) {
-        for(Map.Entry<Long, Long> expInfo : exps.entrySet()) {
-            final CatHelper catHelper = catHelperRepository.findByMemberIdAndHelperId(memberId, expInfo.getKey());
-            catHelper.setExp(catHelper.getExp() + expInfo.getValue());
+    private void updateHelperExpInfo(final long memberId, final List<Long> helperIds, final Double exp) {
+        for(final Long helperId : helperIds) {
+            final CatHelper catHelper = catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
+            catHelper.setExp(catHelper.getExp() + exp);
         }
     }
 }

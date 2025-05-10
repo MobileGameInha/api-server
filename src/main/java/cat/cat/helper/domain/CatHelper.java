@@ -20,14 +20,14 @@ public class CatHelper {
     private Long id;
     private Long memberId;
     private Long helperId;
-    public Long exp;
+    public Double exp;
     public Long level;
     public boolean active;
 
     public CatHelper(final long memberId, final long helperId) {
         this.memberId = memberId;
         this.helperId = helperId;
-        this.exp = 0L;
+        this.exp = 0.0;
         this.level = 0L;
         this.active = false;
     }

@@ -21,5 +21,6 @@ public class StageController {
     @PostMapping("/{memberId}")
     public ResponseEntity<Void> updateExpInfoAfterStage(@PathVariable("memberId") final long memberId, @RequestBody final UpdateExpInfoAfterStageRequest updateExpInfoAfterStageRequest) {
         stageService.updateExpInfoAfterStage(memberId, updateExpInfoAfterStageRequest);
+        return ResponseEntity.noContent().build();
     }
 }
