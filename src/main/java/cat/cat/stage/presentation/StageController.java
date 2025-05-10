@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class StageController {
     private final StageService stageService;
 
-
     @Operation(summary = "Stage 클리어 이후 경험치, 골드등 능력치 증가 API")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "능력치 업데이트 성공", content = @Content(schema = @Schema(implementation = Void.class))),
