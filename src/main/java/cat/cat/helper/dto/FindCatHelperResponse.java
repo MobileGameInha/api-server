@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class FindCatHelperResponse {
     private Long helperId;
-    private Long exp;
+    private Double exp;
     private Long level;
     private boolean active;
 

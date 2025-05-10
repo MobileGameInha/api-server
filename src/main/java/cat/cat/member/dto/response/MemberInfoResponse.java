@@ -19,13 +19,13 @@ public class MemberInfoResponse {
     private String username;
 
     @Schema(description = "유저의 총 경험치", example = "5000")
-    private Long totalExp;
+    private Double totalExp;
 
     @Schema(description = "유저의 총 경험치", example = "100000")
     private Long gold;
 
     public MemberInfoResponse(final Long id, final String nickname, final String username,
-                              final Long totalExp, final Long gold) {
+                              final Double totalExp, final Long gold) {
         this.id = id;
         this.nickname = nickname;
         this.username = username;
