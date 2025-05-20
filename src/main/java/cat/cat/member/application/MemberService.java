@@ -50,4 +50,11 @@ public class MemberService {
 
         return new LoginResponse(member.getId());
     }
+
+    @Transactional
+    public void updateProfileNumber(final long memberId, final long profileNumber) {
+        final Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
+        member.setProfileNumber(profileNumber);
+    }
 }

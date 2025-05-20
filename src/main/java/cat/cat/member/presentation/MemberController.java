@@ -4,6 +4,7 @@ import cat.cat.global.error.dto.ExceptionResponse;
 import cat.cat.member.application.MemberService;
 import cat.cat.member.dto.request.LoginRequest;
 import cat.cat.member.dto.request.SignUpRequest;
+import cat.cat.member.dto.request.UpdateProfileNumberRequest;
 import cat.cat.member.dto.response.LoginResponse;
 import cat.cat.member.dto.response.MemberInfoResponse;
 import cat.cat.member.dto.response.SignUpResponse;
@@ -60,5 +61,12 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody final LoginRequest loginRequest) {
         return ResponseEntity.ok(memberService.login(loginRequest));
+    }
+
+    @PostMapping("/number/update/{memberId}")
+    public ResponseEntity<Void> updateProfileNumber(@PathVariable("memberId") final Long memberId,
+                                                    @RequestBody final UpdateProfileNumberRequest profileNumberRequest) {
+        memberService.updateProfileNumber(memberId, profileNumberRequest.getProfileNumber());
+        return ResponseEntity.noContent().build();
     }
 }

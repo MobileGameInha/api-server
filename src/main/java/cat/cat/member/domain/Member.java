@@ -25,6 +25,7 @@ public class Member {
     private String password;
     private Long gold;
     private Double totalExp;
+    private Long profileNumber;
 
     public Member(final String email, final String username, final String nickname, final String password) {
         this.email = email;
