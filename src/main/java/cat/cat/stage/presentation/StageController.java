@@ -4,6 +4,7 @@ import cat.cat.global.error.dto.ExceptionResponse;
 import cat.cat.member.dto.response.SignUpResponse;
 import cat.cat.stage.application.StageService;
 import cat.cat.stage.dto.UpdateExpInfoAfterStageRequest;
+import cat.cat.stage.dto.UpdateStageScoreRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,6 +34,14 @@ public class StageController {
     @PostMapping("/{memberId}")
     public ResponseEntity<Void> updateExpInfoAfterStage(@PathVariable("memberId") final long memberId, @RequestBody final UpdateExpInfoAfterStageRequest updateExpInfoAfterStageRequest) {
         stageService.updateExpInfoAfterStage(memberId, updateExpInfoAfterStageRequest);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{memberId}/{stageId}")
+    public ResponseEntity<Void> updateStageScore(@PathVariable("memberId") final long memberId,
+                                                 @PathVariable("stageId") final long stageId,
+                                                 @RequestBody final UpdateStageScoreRequest updateStageScoreRequest) {
+        stageService.updateStageScore(memberId, stageId, updateStageScoreRequest.getScore());
         return ResponseEntity.noContent().build();
     }
 }

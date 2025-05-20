@@ -5,7 +5,10 @@ import cat.cat.helper.domain.CatHelperRepository;
 import cat.cat.member.domain.Member;
 import cat.cat.member.domain.MemberRepository;
 import cat.cat.member.exception.MemberException;
+import cat.cat.stage.domain.Stage;
+import cat.cat.stage.domain.StageRepository;
 import cat.cat.stage.dto.UpdateExpInfoAfterStageRequest;
+import cat.cat.stage.exception.StageException;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class StageService {
     private final MemberRepository memberRepository;
     private final CatHelperRepository catHelperRepository;
+    private final StageRepository stageRepository;
 
     public void updateExpInfoAfterStage(final long memberId, final UpdateExpInfoAfterStageRequest expInfoAfterStageRequest) {
         updateMemberExpInfo(memberId, expInfoAfterStageRequest);
@@ -37,5 +41,20 @@ public class StageService {
             final CatHelper catHelper = catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
             catHelper.setExp(catHelper.getExp() + exp);
         }
+    }
+
+    @Transactional
+    public void updateStageScore(final long memberId, final long stageId, final long score) {
+        Stage stage = stageRepository.findByMemberIdAndStageNumber(memberId, stageId)
+                .orElseGet(() -> {
+                    Stage newStage = new Stage();
+                    newStage.setMemberId(memberId);
+                    newStage.setStageNumber(stageId);
+                    newStage.setScore(0L);
+                    newStage.setScore(score);
+                    return stageRepository.save(newStage);
+                });
+
+        stage.setScore(score);
     }
 }

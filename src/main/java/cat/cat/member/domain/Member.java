@@ -13,12 +13,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
-
 public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-
     private String email;
     private String username;
     private String nickname;
