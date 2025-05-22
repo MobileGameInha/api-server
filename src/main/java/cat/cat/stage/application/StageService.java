@@ -7,8 +7,11 @@ import cat.cat.member.domain.MemberRepository;
 import cat.cat.member.exception.MemberException;
 import cat.cat.stage.domain.Stage;
 import cat.cat.stage.domain.StageRepository;
+import cat.cat.stage.dto.StageRankResponse;
+import cat.cat.stage.dto.StageRankingSummaryResponse;
 import cat.cat.stage.dto.UpdateExpInfoAfterStageRequest;
 import cat.cat.stage.exception.StageException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -57,4 +60,31 @@ public class StageService {
 
         stage.setScore(score);
     }
+
+
+    public StageRankingSummaryResponse getStageRanking(Long stageNumber, Long memberId) {
+        List<Stage> stages = stageRepository.findAllByStageNumberOrderByScoreDesc(stageNumber);
+
+        List<StageRankResponse> topRanks = new ArrayList<>();
+        StageRankResponse myRank = null;
+
+        int rank = 1;
+        for (Stage s : stages) {
+            Member m = memberRepository.findById(s.getMemberId())
+                    .orElseThrow(() -> new MemberException("회원 없음"));
+
+            if (rank <= 3) {
+                topRanks.add(new StageRankResponse(m.getId(), m.getNickname(), s.getScore(), rank));
+            }
+
+            if (s.getMemberId().equals(memberId)) {
+                myRank = new StageRankResponse(m.getId(), m.getNickname(), s.getScore(), rank);
+            }
+
+            rank++;
+        }
+
+        return new StageRankingSummaryResponse(topRanks, myRank);
+    }
+
 }
