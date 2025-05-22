@@ -32,5 +32,6 @@ public class Member {
         this.password = password;
         this.gold = 0L;
         this.totalExp = 0.0;
+        this.profileNumber = 0L;
     }
 }

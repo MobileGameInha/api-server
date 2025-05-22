@@ -40,7 +40,8 @@ public class MemberService {
                 member.getNickname(),
                 member.getUsername(),
                 member.getTotalExp(),
-                member.getGold());
+                member.getGold(),
+                member.getProfileNumber());
     }
 
     @Transactional

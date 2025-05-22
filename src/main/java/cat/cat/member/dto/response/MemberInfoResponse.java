@@ -24,12 +24,16 @@ public class MemberInfoResponse {
     @Schema(description = "유저의 총 경험치", example = "100000")
     private Long gold;
 
+    @Schema(description = "유저의 프로필 번호", example = "3")
+    private Long profileNumber;
+
     public MemberInfoResponse(final Long id, final String nickname, final String username,
-                              final Double totalExp, final Long gold) {
+                              final Double totalExp, final Long gold, final Long profileNumber) {
         this.id = id;
         this.nickname = nickname;
         this.username = username;
         this.totalExp = totalExp;
         this.gold = gold;
+        this.profileNumber = profileNumber;
     }
 }
