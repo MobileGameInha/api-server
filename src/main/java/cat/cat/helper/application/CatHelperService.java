@@ -84,9 +84,15 @@ public class CatHelperService {
 
     public void updateHelperLevel(final long memberId, final long helperId) {
         final CatHelper catHelper = catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
+
+        /* if(catHelper.getExp() == 100) {
+            catHelper.setExp(0);
+        } */
+
         if(catHelper.getLevel() > 5) {
             throw new CatHelperException("조력자의 최대 Level은 5입니다.");
         }
+
         catHelper.setLevel(catHelper.getLevel() + 1);
     }
 }
