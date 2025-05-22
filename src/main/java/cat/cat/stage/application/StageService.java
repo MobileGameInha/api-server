@@ -29,6 +29,7 @@ public class StageService {
     private final CatHelperRepository catHelperRepository;
     private final StageRepository stageRepository;
 
+    @Transactional
     public void updateExpInfoAfterStage(final long memberId, final UpdateExpInfoAfterStageRequest expInfoAfterStageRequest) {
         updateMemberExpInfo(memberId, expInfoAfterStageRequest);
         updateHelperExpInfo(memberId, expInfoAfterStageRequest.getHelperIds(), expInfoAfterStageRequest.getExp());
@@ -90,7 +91,6 @@ public class StageService {
         return new StageRankingSummaryResponse(topRanks, myRank);
     }
 
-    @Transactional(readOnly = true)
     public TierResponse calculateTier(Long memberId) {
         Map<Long, Long> userTotalScoreMap = stageRepository.findAll().stream()
                 .collect(Collectors.groupingBy(Stage::getMemberId,
