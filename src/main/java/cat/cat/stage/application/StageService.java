@@ -9,11 +9,14 @@ import cat.cat.stage.domain.Stage;
 import cat.cat.stage.domain.StageRepository;
 import cat.cat.stage.dto.StageRankResponse;
 import cat.cat.stage.dto.StageRankingSummaryResponse;
+import cat.cat.stage.dto.TierResponse;
 import cat.cat.stage.dto.UpdateExpInfoAfterStageRequest;
 import cat.cat.stage.exception.StageException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,6 +88,33 @@ public class StageService {
         }
 
         return new StageRankingSummaryResponse(topRanks, myRank);
+    }
+
+    @Transactional(readOnly = true)
+    public TierResponse calculateTier(Long memberId) {
+        Map<Long, Long> userTotalScoreMap = stageRepository.findAll().stream()
+                .collect(Collectors.groupingBy(Stage::getMemberId,
+                        Collectors.summingLong(Stage::getScore)));
+
+        Long myTotalScore = userTotalScoreMap.getOrDefault(memberId, 0L);
+
+        List<Long> sortedScores = userTotalScoreMap.values().stream()
+                .sorted(Comparator.reverseOrder())
+                .toList();
+
+        int rank = sortedScores.indexOf(myTotalScore) + 1;
+        int totalUsers = sortedScores.size();
+        double percentile = ((double) rank / totalUsers) * 100;
+
+        String tier;
+        if (percentile <= 5) tier = "Challenger";
+        else if (percentile <= 20) tier = "Master";
+        else if (percentile <= 40) tier = "Diamond";
+        else if (percentile <= 60) tier = "Gold";
+        else if (percentile <= 80) tier = "Bronze";
+        else tier = "Unranked";
+
+        return new TierResponse(tier);
     }
 
 }

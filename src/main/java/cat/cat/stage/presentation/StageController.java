@@ -4,6 +4,7 @@ import cat.cat.global.error.dto.ExceptionResponse;
 import cat.cat.member.dto.response.SignUpResponse;
 import cat.cat.stage.application.StageService;
 import cat.cat.stage.dto.StageRankingSummaryResponse;
+import cat.cat.stage.dto.TierResponse;
 import cat.cat.stage.dto.UpdateExpInfoAfterStageRequest;
 import cat.cat.stage.dto.UpdateStageScoreRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -75,5 +76,24 @@ public class StageController {
             @RequestParam Long memberId
     ) {
         return ResponseEntity.ok(stageService.getStageRanking(stageNumber, memberId));
+    }
+
+    @GetMapping("/tier")
+    @Operation(
+            summary = "유저의 티어 조회",
+            description = "모든 Stage의 최고점수 합계를 기준으로 전체 유저 중 상위 퍼센트를 계산하고 티어를 반환합니다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "티어 계산 성공",
+                            content = @Content(schema = @Schema(implementation = TierResponse.class))
+                    )
+            }
+    )
+    public ResponseEntity<TierResponse> getTier(
+            @Parameter(description = "회원 ID", example = "1")
+            @RequestParam Long memberId
+    ) {
+        return ResponseEntity.ok(stageService.calculateTier(memberId));
     }
 }
