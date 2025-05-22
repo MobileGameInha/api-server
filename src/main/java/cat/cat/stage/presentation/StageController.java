@@ -37,6 +37,11 @@ public class StageController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Stage 점수 업데이트")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "능력치 업데이트 성공", content = @Content(schema = @Schema(implementation = Void.class))),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
+    })
     @PostMapping("/{memberId}/{stageId}")
     public ResponseEntity<Void> updateStageScore(@PathVariable("memberId") final long memberId,
                                                  @PathVariable("stageId") final long stageId,
