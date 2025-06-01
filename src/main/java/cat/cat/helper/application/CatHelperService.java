@@ -7,6 +7,7 @@ import cat.cat.member.domain.Member;
 import cat.cat.member.domain.MemberRepository;
 import cat.cat.member.exception.MemberException;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +21,12 @@ public class CatHelperService {
 
     @Transactional
     public void buyCatHelper(final long memberId, final long helperId, final long helperPrice) {
-        checkLackOfGoldException(memberId, helperPrice);
+        checkLackOfGoldExceptionAndDecreaseGold(memberId, helperPrice);
         checkAlreadyBuyHelper(memberId, helperId);
         catHelperRepository.save(new CatHelper(memberId, helperId));
     }
 
-    private void checkLackOfGoldException(final long memberId, final long helperPrice) {
+    private void checkLackOfGoldExceptionAndDecreaseGold(final long memberId, final long helperPrice) {
         final Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException("존재하지 않는 회원입니다."));
         final long memberGold = member.getGold();
@@ -33,6 +34,8 @@ public class CatHelperService {
         if(memberGold - helperPrice < 0) {
             throw new CatHelperException("골드가 부족합니다.");
         }
+
+        member.setGold(memberGold - helperPrice);
     }
 
     private void checkAlreadyBuyHelper(final long memberId, final long helperId) {
@@ -74,8 +77,16 @@ public class CatHelperService {
         }
     }
 
-    public List<CatHelper> findChooseCatHelpers(final long memberId) {
-        return catHelperRepository.findAllByMemberIdAndActiveTrue(memberId);
+    public List<Long> findChooseCatHelpers(final long memberId) {
+        final List<CatHelper> activeHelpers = catHelperRepository.findAllByMemberIdAndActiveTrue(memberId);
+        final List<Long> helperIds = activeHelpers.stream()
+                .map(CatHelper::getHelperId)
+                .collect(Collectors.toList());
+
+        while(helperIds.size() < 3) {
+            helperIds.add(0L);
+        }
+        return helperIds.subList(0, 3);
     }
 
     public CatHelper findHelperDetail(final long memberId, final long helperId) {

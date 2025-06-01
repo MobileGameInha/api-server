@@ -78,8 +78,8 @@ public class CatHelperController {
     @Parameter(name = "memberId", description = "회원의 ID 값", example = "75", required = true)
     @GetMapping("/choose/{memberId}")
     public ResponseEntity<FindChooseCatHelperAllResponse> findChooseCatHelpers(@PathVariable final long memberId) {
-        final List<CatHelper> catHelpers = catHelperService.findChooseCatHelpers(memberId);
-        return ResponseEntity.ok(new FindChooseCatHelperAllResponse(catHelpers));
+        final List<Long> catHelperIds = catHelperService.findChooseCatHelpers(memberId);
+        return ResponseEntity.ok(new FindChooseCatHelperAllResponse(catHelperIds));
     }
 
     @Operation(summary = "특정 조력자에 대한 상세 정보(경험치, 레벨, ... 등) 조회")
