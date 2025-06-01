@@ -5,6 +5,9 @@ import cat.cat.inventory.domain.InventoryRepository;
 import cat.cat.inventory.dto.FindInventoriesResponse;
 import cat.cat.inventory.dto.FindInventoryResponse;
 import cat.cat.inventory.dto.InventorySaveRequest;
+import cat.cat.member.domain.Member;
+import cat.cat.member.domain.MemberRepository;
+import cat.cat.member.exception.MemberException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -19,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class InventoryService {
     private final InventoryRepository inventoryRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public void createInventory(final InventorySaveRequest saveRequest) {
@@ -31,6 +35,10 @@ public class InventoryService {
         } else {
             inventoryRepository.save(new Inventory(saveRequest.getItemNumber(), memberId));
         }
+
+        final Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException("없는 멤버입니다."));
+        member.setGold(member.getGold() - 200);
     }
 
     public FindInventoriesResponse getInventoryBalance(Long memberId) {
