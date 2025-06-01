@@ -2,6 +2,7 @@ package cat.cat.inventory.presentation;
 
 import cat.cat.global.error.dto.ExceptionResponse;
 import cat.cat.inventory.application.InventoryService;
+import cat.cat.inventory.dto.FindInventoriesResponse;
 import cat.cat.inventory.dto.FindInventoryResponse;
 import cat.cat.inventory.dto.InventorySaveRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -53,7 +54,7 @@ public class InventoryController {
             )
     })
     @GetMapping("{memberId}")
-    public ResponseEntity<List<FindInventoryResponse>> findInventorys(@PathVariable Long memberId) {
+    public ResponseEntity<FindInventoriesResponse> findInventorys(@PathVariable Long memberId) {
         return ResponseEntity.ok(inventoryService.getInventoryBalance(memberId));
     }
 }
