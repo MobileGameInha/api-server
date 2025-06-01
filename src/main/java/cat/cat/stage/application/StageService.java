@@ -45,6 +45,9 @@ public class StageService {
 
     private void updateHelperExpInfo(final long memberId, final List<Long> helperIds, final Double exp) {
         for(final Long helperId : helperIds) {
+            if(helperId == 0) {
+                continue;
+            }
             final CatHelper catHelper = catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
             catHelper.setExp(catHelper.getExp() + exp);
         }
