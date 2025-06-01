@@ -67,7 +67,7 @@ public class StageController {
                     @ApiResponse(responseCode = "404", description = "회원 또는 스테이지 정보 없음"),
             }
     )
-    @GetMapping("/{stageNumber}/ranking")
+    @GetMapping("/{stageNumber}/{memberId}/ranking")
     public ResponseEntity<StageRankingSummaryResponse> getStageRanking(
             @Parameter(description = "조회할 스테이지 번호", example = "5")
             @PathVariable Long stageNumber,
@@ -78,7 +78,7 @@ public class StageController {
         return ResponseEntity.ok(stageService.getStageRanking(stageNumber, memberId));
     }
 
-    @GetMapping("/tier")
+    @GetMapping("/tier/{memberId}")
     @Operation(
             summary = "유저의 티어 조회",
             description = "모든 Stage의 최고점수 합계를 기준으로 전체 유저 중 상위 퍼센트를 계산하고 티어를 반환합니다.",
