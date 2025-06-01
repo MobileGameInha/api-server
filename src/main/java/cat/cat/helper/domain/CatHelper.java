@@ -32,6 +32,14 @@ public class CatHelper {
         this.active = false;
     }
 
+    public CatHelper(final long memberId, final long helperId, final long level, final Double exp) {
+        this.memberId = memberId;
+        this.helperId = helperId;
+        this.exp = exp;
+        this.level = level;
+        this.active = false;
+    }
+
     public void setActive(boolean active) {
         this.active = active;
     }

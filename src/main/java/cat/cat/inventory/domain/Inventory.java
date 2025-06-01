@@ -26,4 +26,10 @@ public class Inventory {
         this.count = 1L;
         this.memberId = memberId;
     }
+
+    public Inventory(final Long itemNumber, final Long memberId, final Long count) {
+        this.itemNumber = itemNumber;
+        this.count = count;
+        this.memberId = memberId;
+    }
 }
