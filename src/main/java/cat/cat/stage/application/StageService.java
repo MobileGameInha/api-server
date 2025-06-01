@@ -80,19 +80,34 @@ public class StageService {
             Member m = memberRepository.findById(s.getMemberId())
                     .orElseThrow(() -> new MemberException("회원 없음"));
 
+            StageRankResponse response = new StageRankResponse(
+                    m.getId(),
+                    m.getNickname(),
+                    s.getScore(),
+                    rank,
+                    m.getProfileNumber(),
+                    m.getTotalExp()
+            );
+
             if (rank <= 3) {
-                topRanks.add(new StageRankResponse(m.getId(), m.getNickname(), s.getScore(), rank, m.getProfileNumber(), m.getTotalExp()));
+                topRanks.add(response);
             }
-
             if (s.getMemberId().equals(memberId)) {
-                myRank = new StageRankResponse(m.getId(), m.getNickname(), s.getScore(), rank, m.getProfileNumber(), m.getTotalExp());
+                myRank = response;
             }
-
             rank++;
+        }
+
+        // topRanks의 길이를 3으로 보장
+        while (topRanks.size() < 3) {
+            topRanks.add(new StageRankResponse(
+                    0L, "", 0L, 0, 0L, 0.0
+            ));
         }
 
         return new StageRankingSummaryResponse(topRanks, myRank);
     }
+
 
     public TierResponse calculateTier(Long memberId) {
         Map<Long, Long> userTotalScoreMap = stageRepository.findAll().stream()
