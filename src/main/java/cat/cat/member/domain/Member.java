@@ -30,7 +30,7 @@ public class Member {
         this.username = username;
         this.nickname = nickname;
         this.password = password;
-        this.gold = 0L;
+        this.gold = 10000L;
         this.totalExp = 0.0;
         this.profileNumber = 0L;
     }
