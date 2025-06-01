@@ -73,7 +73,7 @@ public class StageController {
             @PathVariable Long stageNumber,
 
             @Parameter(description = "랭킹을 조회할 회원 ID", example = "2")
-            @RequestParam Long memberId
+            @PathVariable Long memberId
     ) {
         return ResponseEntity.ok(stageService.getStageRanking(stageNumber, memberId));
     }
@@ -92,7 +92,7 @@ public class StageController {
     )
     public ResponseEntity<TierResponse> getTier(
             @Parameter(description = "회원 ID", example = "1")
-            @RequestParam Long memberId
+            @PathVariable Long memberId
     ) {
         return ResponseEntity.ok(stageService.calculateTier(memberId));
     }
