@@ -133,19 +133,21 @@ public class StageService {
             }
 
     // 내 순위 계산
-            int rank = scoreToRankMap.get(myTotalScore);
-            int totalUsers = sortedScores.size();
-            double percentile = ((double) rank / totalUsers) * 100;
+        Integer rank = scoreToRankMap.get(myTotalScore);
+        if (rank == null) {
+            return new TierResponse("Unranked");
+        }
 
-            // 티어 결정
-            String tier;
-            if (percentile <= 5) tier = "Challenger";
-            else if (percentile <= 20) tier = "Master";
-            else if (percentile <= 40) tier = "Diamond";
-            else if (percentile <= 60) tier = "Gold";
-            else if (percentile <= 80) tier = "Bronze";
-            else tier = "Unranked";
+        int totalUsers = sortedScores.size();
+        double percentile = ((double) rank / totalUsers) * 100;
 
+        String tier;
+        if (percentile <= 5) tier = "Challenger";
+        else if (percentile <= 20) tier = "Master";
+        else if (percentile <= 40) tier = "Diamond";
+        else if (percentile <= 60) tier = "Gold";
+        else if (percentile <= 80) tier = "Bronze";
+        else tier = "Unranked";
 
         return new TierResponse(tier);
     }
