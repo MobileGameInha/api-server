@@ -14,6 +14,7 @@ import cat.cat.stage.dto.UpdateExpInfoAfterStageRequest;
 import cat.cat.stage.exception.StageException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -116,21 +117,35 @@ public class StageService {
 
         Long myTotalScore = userTotalScoreMap.getOrDefault(memberId, 0L);
 
-        List<Long> sortedScores = userTotalScoreMap.values().stream()
-                .sorted(Comparator.reverseOrder())
-                .toList();
+    // 점수 기준 내림차순 정렬 (중복 점수 고려)
+            List<Long> sortedScores = userTotalScoreMap.values().stream()
+                    .sorted(Comparator.reverseOrder())
+                    .toList();
 
-        int rank = sortedScores.indexOf(myTotalScore) + 1;
-        int totalUsers = sortedScores.size();
-        double percentile = ((double) rank / totalUsers) * 100;
+    // 점수별 순위 매핑
+            Map<Long, Integer> scoreToRankMap = new HashMap<>();
+            int rankCounter = 1;
+            for (Long score : sortedScores) {
+                if (!scoreToRankMap.containsKey(score)) {
+                    scoreToRankMap.put(score, rankCounter);
+                }
+                rankCounter++;
+            }
 
-        String tier;
-        if (percentile <= 5) tier = "Challenger";
-        else if (percentile <= 20) tier = "Master";
-        else if (percentile <= 40) tier = "Diamond";
-        else if (percentile <= 60) tier = "Gold";
-        else if (percentile <= 80) tier = "Bronze";
-        else tier = "Unranked";
+    // 내 순위 계산
+            int rank = scoreToRankMap.get(myTotalScore);
+            int totalUsers = sortedScores.size();
+            double percentile = ((double) rank / totalUsers) * 100;
+
+            // 티어 결정
+            String tier;
+            if (percentile <= 5) tier = "Challenger";
+            else if (percentile <= 20) tier = "Master";
+            else if (percentile <= 40) tier = "Diamond";
+            else if (percentile <= 60) tier = "Gold";
+            else if (percentile <= 80) tier = "Bronze";
+            else tier = "Unranked";
+
 
         return new TierResponse(tier);
     }
