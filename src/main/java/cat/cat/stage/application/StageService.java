@@ -78,11 +78,11 @@ public class StageService {
                     .orElseThrow(() -> new MemberException("회원 없음"));
 
             if (rank <= 3) {
-                topRanks.add(new StageRankResponse(m.getId(), m.getNickname(), s.getScore(), rank));
+                topRanks.add(new StageRankResponse(m.getId(), m.getNickname(), s.getScore(), rank, m.getProfileNumber(), m.getTotalExp()));
             }
 
             if (s.getMemberId().equals(memberId)) {
-                myRank = new StageRankResponse(m.getId(), m.getNickname(), s.getScore(), rank);
+                myRank = new StageRankResponse(m.getId(), m.getNickname(), s.getScore(), rank, m.getProfileNumber(), m.getTotalExp());
             }
 
             rank++;
