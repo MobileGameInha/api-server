@@ -21,7 +21,7 @@ public class TestApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        catHelperRepository.save(new CatHelper(1L, 1L, 1L, 0.0));
+        catHelperRepository.save(new CatHelper(1L, 1L, 1L, 100.0));
         inventoryRepository.save(new Inventory(1L, 1L, 100L));
         inventoryRepository.save(new Inventory(2L, 1L, 100L));
         inventoryRepository.save(new Inventory(3L, 1L, 100L));
