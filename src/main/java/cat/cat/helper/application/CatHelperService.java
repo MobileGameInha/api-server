@@ -73,6 +73,9 @@ public class CatHelperService {
 
     private void changeRequestHelperActive(final Long memberId, final List<Long> helperIds) {
         for(final Long helperId : helperIds) {
+            if(helperId == 0) {
+                continue;
+            }
             final CatHelper catHelper = catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
             catHelper.setActive(true);
         }
