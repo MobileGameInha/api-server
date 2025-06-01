@@ -8,6 +8,7 @@ import cat.cat.helper.dto.ChooseCatHelperRequest;
 import cat.cat.helper.dto.FindAllMemberCatHelperResponse;
 import cat.cat.helper.dto.FindCatHelperResponse;
 import cat.cat.helper.dto.FindChooseCatHelperAllResponse;
+import cat.cat.helper.dto.UpdateLevelRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -101,10 +102,12 @@ public class CatHelperController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
     @Parameter(name = "memberId", description = "회원의 ID 값", example = "75", required = true)
-    @Parameter(name = "helperId", description = "조력자 번호", example = "5", required = true)
+    @Parameter(name = "helperId", description = "조력자 번호", example = "5e"
+            + "zzz", required = true)
     @PostMapping("/detail/{memberId}/{helperId}")
-    public ResponseEntity<Void> updateHelperLevel(@PathVariable("memberId") final long memberId, @PathVariable("helperId") final long helperId) {
-        catHelperService.updateHelperLevel(memberId, helperId);
+    public ResponseEntity<Void> updateHelperLevel(@PathVariable("memberId") final long memberId, @PathVariable("helperId") final long helperId,
+                                                  @RequestBody final UpdateLevelRequest updateLevelRequest) {
+        catHelperService.updateHelperLevel(memberId, helperId, updateLevelRequest.getItemCount());
         return ResponseEntity.noContent().build();
     }
 }

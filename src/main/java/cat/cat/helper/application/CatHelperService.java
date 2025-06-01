@@ -3,10 +3,13 @@ package cat.cat.helper.application;
 import cat.cat.helper.domain.CatHelper;
 import cat.cat.helper.domain.CatHelperRepository;
 import cat.cat.helper.exception.CatHelperException;
+import cat.cat.inventory.domain.Inventory;
+import cat.cat.inventory.domain.InventoryRepository;
 import cat.cat.member.domain.Member;
 import cat.cat.member.domain.MemberRepository;
 import cat.cat.member.exception.MemberException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CatHelperService {
     private final MemberRepository memberRepository;
     private final CatHelperRepository catHelperRepository;
+    private final InventoryRepository inventoryRepository;
 
     @Transactional
     public void buyCatHelper(final long memberId, final long helperId, final long helperPrice) {
@@ -97,17 +101,35 @@ public class CatHelperService {
         return catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
     }
 
-    public void updateHelperLevel(final long memberId, final long helperId) {
+    @Transactional
+    public void updateHelperLevel(final long memberId, final long helperId, final Map<Long, Long> itemCountMap) {
+        // 조력자 조회 및 레벨 제한 체크
         final CatHelper catHelper = catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
 
-        /* if(catHelper.getExp() == 100) {
-            catHelper.setExp(0);
-        } */
-
-        if(catHelper.getLevel() > 5) {
+        if (catHelper.getLevel() >= 5) {
             throw new CatHelperException("조력자의 최대 Level은 5입니다.");
         }
 
+        // 인벤토리 조회
+        List<Inventory> inventories = inventoryRepository.findByMemberId(memberId);
+        Map<Long, Inventory> inventoryMap = inventories.stream()
+                .collect(Collectors.toMap(Inventory::getItemNumber, inv -> inv));
+
+        // 아이템 수량 차감
+        for (Map.Entry<Long, Long> entry : itemCountMap.entrySet()) {
+            Long itemNumber = entry.getKey();
+            Long consumeAmount = entry.getValue();
+
+            Inventory inventory = inventoryMap.get(itemNumber);
+            if (inventory == null || inventory.getCount() < consumeAmount) {
+                throw new IllegalArgumentException("재고가 부족한 아이템: " + itemNumber);
+            }
+
+            inventory.setCount(inventory.getCount() - consumeAmount);
+        }
+
+        // 조력자 레벨업
         catHelper.setLevel(catHelper.getLevel() + 1);
     }
+
 }
