@@ -5,6 +5,7 @@ import cat.cat.inventory.application.InventoryService;
 import cat.cat.inventory.dto.FindInventoryResponse;
 import cat.cat.inventory.dto.InventorySaveRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -40,8 +41,16 @@ public class InventoryController {
 
     @Operation(summary = "멤버가 보유한 인벤토리 리스트 조회 API")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "능력치 업데이트 성공", content = @Content(schema = @Schema(implementation = Void.class))),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "인벤토리 리스트 조회 성공",
+                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = FindInventoryResponse.class)))
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "잘못된 요청",
+                    content = @Content(schema = @Schema(implementation = ExceptionResponse.class))
+            )
     })
     @GetMapping("{memberId}")
     public ResponseEntity<List<FindInventoryResponse>> findInventorys(@PathVariable Long memberId) {
