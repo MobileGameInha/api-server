@@ -54,9 +54,9 @@ public class CatHelperService {
         // 1. 해당 memberId의 모든 CatHelper 를 비활성화
         // 2. helperId가 일치하는 것들만 다시 활성화
         final List<CatHelper> helpers = catHelperRepository.findByMemberId(memberId);
-        checkMaxChooseSize(helpers.size());
+        checkMaxChooseSize(helperIds.size());
         changeAllHelperInActive(memberId, helpers);
-        changeRequestHelperActive(helpers);
+        changeRequestHelperActive(memberId, helperIds);
     }
 
     private void checkMaxChooseSize(final long size) {
@@ -71,9 +71,10 @@ public class CatHelperService {
         }
     }
 
-    private void changeRequestHelperActive(final List<CatHelper> helpers) {
-        for (final CatHelper helper : helpers) {
-            helper.setActive(true);
+    private void changeRequestHelperActive(final Long memberId, final List<Long> helperIds) {
+        for(final Long helperId : helperIds) {
+            final CatHelper catHelper = catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
+            catHelper.setActive(true);
         }
     }
 
