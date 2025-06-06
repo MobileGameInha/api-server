@@ -102,30 +102,28 @@ public class CatHelperService {
     }
 
     @Transactional
-    public void updateHelperLevel(final long memberId, final long helperId, final Map<Long, Long> itemCountMap) {
-        // 조력자 조회 및 레벨 제한 체크
+    public void updateHelperLevel(final long memberId, final long helperId,
+                                  final List<Long> itemNumbers, final int itemCount) {
+
         final CatHelper catHelper = catHelperRepository.findByMemberIdAndHelperId(memberId, helperId);
 
         if (catHelper.getLevel() >= 5) {
             throw new CatHelperException("조력자의 최대 Level은 5입니다.");
         }
 
-        // 인벤토리 조회
+        // 인벤토리 조회 및 Map 변환
         List<Inventory> inventories = inventoryRepository.findByMemberId(memberId);
         Map<Long, Inventory> inventoryMap = inventories.stream()
                 .collect(Collectors.toMap(Inventory::getItemNumber, inv -> inv));
 
         // 아이템 수량 차감
-        for (Map.Entry<Long, Long> entry : itemCountMap.entrySet()) {
-            Long itemNumber = entry.getKey();
-            Long consumeAmount = entry.getValue();
-
+        for (Long itemNumber : itemNumbers) {
             Inventory inventory = inventoryMap.get(itemNumber);
-            if (inventory == null || inventory.getCount() < consumeAmount) {
+            if (inventory == null || inventory.getCount() < itemCount) {
                 throw new IllegalArgumentException("재고가 부족한 아이템: " + itemNumber);
             }
 
-            inventory.setCount(inventory.getCount() - consumeAmount);
+            inventory.setCount(inventory.getCount() - itemCount);
         }
 
         // 조력자 레벨업

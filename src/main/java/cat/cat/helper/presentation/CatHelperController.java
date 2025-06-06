@@ -96,18 +96,21 @@ public class CatHelperController {
         return ResponseEntity.ok(new FindCatHelperResponse(catHelper));
     }
 
+    @PostMapping("/detail/{memberId}/{helperId}")
     @Operation(summary = "특정 조력자의 레벨업 요청 (현재 레벨에서 레벨 1 만큼 증가시킴)")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "선택한 조력자 번호 리스트", content = @Content(schema = @Schema(implementation = Void.class))),
+            @ApiResponse(responseCode = "204", description = "성공적으로 레벨업 수행됨"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청", content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
     })
     @Parameter(name = "memberId", description = "회원의 ID 값", example = "75", required = true)
-    @Parameter(name = "helperId", description = "조력자 번호", example = "5e"
-            + "zzz", required = true)
-    @PostMapping("/detail/{memberId}/{helperId}")
-    public ResponseEntity<Void> updateHelperLevel(@PathVariable("memberId") final long memberId, @PathVariable("helperId") final long helperId,
-                                                  @RequestBody final UpdateLevelRequest updateLevelRequest) {
-        catHelperService.updateHelperLevel(memberId, helperId, updateLevelRequest.getItemCount());
+    @Parameter(name = "helperId", description = "조력자 번호", example = "5", required = true)
+    public ResponseEntity<Void> updateHelperLevel(
+            @PathVariable("memberId") final long memberId,
+            @PathVariable("helperId") final long helperId,
+            @RequestBody final UpdateLevelRequest request
+    ) {
+        catHelperService.updateHelperLevel(memberId, helperId, request.getItems(), request.getItemCount());
         return ResponseEntity.noContent().build();
     }
+
 }
