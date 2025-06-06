@@ -66,7 +66,9 @@ public class StageService {
                     return stageRepository.save(newStage);
                 });
 
-        stage.setScore(score);
+        if(stage.getScore() < score) {
+            stage.setScore(score);
+        }
     }
 
 
