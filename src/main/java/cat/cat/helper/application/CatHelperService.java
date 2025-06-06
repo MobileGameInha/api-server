@@ -128,6 +128,6 @@ public class CatHelperService {
 
         // 조력자 레벨업
         catHelper.setLevel(catHelper.getLevel() + 1);
+        catHelper.setExp(0.0);
     }
-
 }
