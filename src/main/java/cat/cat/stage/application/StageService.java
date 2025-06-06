@@ -146,8 +146,7 @@ public class StageService {
         else if (percentile <= 20) tier = "Master";
         else if (percentile <= 40) tier = "Diamond";
         else if (percentile <= 60) tier = "Gold";
-        else if (percentile <= 80) tier = "Bronze";
-        else tier = "Unranked";
+        else tier = "Bronze";
 
         return new TierResponse(tier);
     }
