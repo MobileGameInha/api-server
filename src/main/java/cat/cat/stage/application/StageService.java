@@ -141,7 +141,7 @@ public class StageService {
         }
 
         int totalUsers = sortedScores.size();
-        double percentile = ((double) rank / totalUsers) * 100;
+        double percentile = ((double)(rank - 1) / totalUsers) * 100;
 
         String tier;
         if (percentile <= 5) tier = "Challenger";
