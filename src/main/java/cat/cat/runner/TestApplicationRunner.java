@@ -21,7 +21,8 @@ public class TestApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        catHelperRepository.save(new CatHelper(1L, 1L, 1L, 100.0));
+        // memberId = 1
+        catHelperRepository.save(new CatHelper(1L, 1L, 60L, 100.0));
         inventoryRepository.save(new Inventory(1L, 1L, 100L));
         inventoryRepository.save(new Inventory(2L, 1L, 100L));
         inventoryRepository.save(new Inventory(3L, 1L, 100L));
@@ -31,6 +32,28 @@ public class TestApplicationRunner implements ApplicationRunner {
         inventoryRepository.save(new Inventory(7L, 1L, 100L));
         inventoryRepository.save(new Inventory(8L, 1L, 100L));
 
-        log.info("인벤토리 개수 : " + inventoryRepository.findAll().size());
+        // memberId = 2
+        catHelperRepository.save(new CatHelper(2L, 2L, 80L, 100.0));
+        inventoryRepository.save(new Inventory(1L, 2L, 50L));
+        inventoryRepository.save(new Inventory(2L, 2L, 50L));
+        inventoryRepository.save(new Inventory(3L, 2L, 50L));
+        inventoryRepository.save(new Inventory(4L, 2L, 50L));
+        inventoryRepository.save(new Inventory(5L, 2L, 50L));
+        inventoryRepository.save(new Inventory(6L, 2L, 50L));
+        inventoryRepository.save(new Inventory(7L, 2L, 50L));
+        inventoryRepository.save(new Inventory(8L, 2L, 50L));
+
+        // memberId = 3
+        catHelperRepository.save(new CatHelper(3L, 3L, 70L, 100.0));
+        inventoryRepository.save(new Inventory(1L, 3L, 30L));
+        inventoryRepository.save(new Inventory(2L, 3L, 30L));
+        inventoryRepository.save(new Inventory(3L, 3L, 30L));
+        inventoryRepository.save(new Inventory(4L, 3L, 30L));
+        inventoryRepository.save(new Inventory(5L, 3L, 30L));
+        inventoryRepository.save(new Inventory(6L, 3L, 30L));
+        inventoryRepository.save(new Inventory(7L, 3L, 30L));
+        inventoryRepository.save(new Inventory(8L, 3L, 30L));
+
+        log.info("인벤토리 전체 개수 : " + inventoryRepository.findAll().size());
     }
 }
