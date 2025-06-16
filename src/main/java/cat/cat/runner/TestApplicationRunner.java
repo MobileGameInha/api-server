@@ -4,6 +4,7 @@ import cat.cat.helper.domain.CatHelper;
 import cat.cat.helper.domain.CatHelperRepository;
 import cat.cat.inventory.domain.Inventory;
 import cat.cat.inventory.domain.InventoryRepository;
+import cat.cat.member.domain.Member;
 import cat.cat.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,8 @@ public class TestApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // memberId = 1
-        catHelperRepository.save(new CatHelper(1L, 1L, 60L, 100.0));
+        memberRepository.save(new Member("test1@naver.com", "Lim", "test1", "123456", 3000.0));
+        catHelperRepository.save(new CatHelper(1L, 1L, 1L, 100.0));
         inventoryRepository.save(new Inventory(1L, 1L, 100L));
         inventoryRepository.save(new Inventory(2L, 1L, 100L));
         inventoryRepository.save(new Inventory(3L, 1L, 100L));
@@ -33,7 +35,8 @@ public class TestApplicationRunner implements ApplicationRunner {
         inventoryRepository.save(new Inventory(8L, 1L, 100L));
 
         // memberId = 2
-        catHelperRepository.save(new CatHelper(2L, 2L, 80L, 100.0));
+        memberRepository.save(new Member("test2@naver.com", "Lee", "test2", "123456", 3000.0));
+        catHelperRepository.save(new CatHelper(2L, 2L, 2L, 100.0));
         inventoryRepository.save(new Inventory(1L, 2L, 50L));
         inventoryRepository.save(new Inventory(2L, 2L, 50L));
         inventoryRepository.save(new Inventory(3L, 2L, 50L));
@@ -44,7 +47,8 @@ public class TestApplicationRunner implements ApplicationRunner {
         inventoryRepository.save(new Inventory(8L, 2L, 50L));
 
         // memberId = 3
-        catHelperRepository.save(new CatHelper(3L, 3L, 70L, 100.0));
+        memberRepository.save(new Member("test3@naver.com", "Jung", "test3", "123456", 3000.0));
+        catHelperRepository.save(new CatHelper(3L, 3L, 3L, 100.0));
         inventoryRepository.save(new Inventory(1L, 3L, 30L));
         inventoryRepository.save(new Inventory(2L, 3L, 30L));
         inventoryRepository.save(new Inventory(3L, 3L, 30L));
@@ -56,4 +60,5 @@ public class TestApplicationRunner implements ApplicationRunner {
 
         log.info("인벤토리 전체 개수 : " + inventoryRepository.findAll().size());
     }
+
 }

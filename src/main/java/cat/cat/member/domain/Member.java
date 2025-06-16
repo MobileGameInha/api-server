@@ -34,4 +34,14 @@ public class Member {
         this.totalExp = 0.0;
         this.profileNumber = 0L;
     }
+
+    public Member(final String email, final String username, final String nickname, final String password, final Double totalExp) {
+        this.email = email;
+        this.username = username;
+        this.nickname = nickname;
+        this.password = password;
+        this.gold = 100000L;
+        this.totalExp = totalExp;
+        this.profileNumber = 0L;
+    }
 }
